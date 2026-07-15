@@ -1,7 +1,7 @@
-import {type ChildProcess, spawn} from "child_process";
-import {readdirSync, statSync} from "fs";
+import { type ChildProcess, spawn } from "child_process";
+import { readdirSync, statSync } from "fs";
 import * as path from "path";
-import type {Plugin} from "vite";
+import type { Plugin } from "vite";
 
 export interface CyRunnerOptions {
   /**
@@ -57,14 +57,14 @@ function findSpecs(dir: string, isSpecFile: (name: string) => boolean): string[]
 
 function killProc(proc: ChildProcess) {
   if (process.platform === "win32" && proc.pid) {
-    spawn("taskkill", ["/F", "/T", "/PID", String(proc.pid)], {shell: true});
+    spawn("taskkill", ["/F", "/T", "/PID", String(proc.pid)], { shell: true });
   } else {
     proc.kill("SIGTERM");
   }
 }
 
 export function cyRunnerPlugin(options: CyRunnerOptions): Plugin {
-  const opts = {...DEFAULTS, ...options};
+  const opts = { ...DEFAULTS, ...options };
   const specsRoot = path.join(opts.root, opts.specsDir);
 
   let currentProc: ChildProcess | null = null;
@@ -102,7 +102,7 @@ export function cyRunnerPlugin(options: CyRunnerOptions): Plugin {
           currentProc = null;
         }
         res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify({ok: true}));
+        res.end(JSON.stringify({ ok: true }));
       });
 
       server.middlewares.use(`${opts.apiBase}/cy-run`, (req, res) => {
@@ -115,7 +115,7 @@ export function cyRunnerPlugin(options: CyRunnerOptions): Plugin {
         let body = "";
         req.on("data", (chunk) => (body += chunk));
         req.on("end", () => {
-          const {spec, runs = 1} = JSON.parse(body);
+          const { spec, runs = 1 } = JSON.parse(body);
 
           res.setHeader("Content-Type", "text/plain; charset=utf-8");
           res.setHeader("Transfer-Encoding", "chunked");
@@ -130,7 +130,7 @@ export function cyRunnerPlugin(options: CyRunnerOptions): Plugin {
               if (aborted) break;
 
               res.write(
-                `\n[CY-RUN-START:${JSON.stringify({run: i + 1, total: runs})}]\n`,
+                `\n[CY-RUN-START:${JSON.stringify({ run: i + 1, total: runs })}]\n`,
               );
 
               const passed = await new Promise<boolean>((resolve) => {
@@ -162,16 +162,16 @@ export function cyRunnerPlugin(options: CyRunnerOptions): Plugin {
 
               results.push(passed);
               res.write(
-                `\n[CY-RUN-END:${JSON.stringify({run: i + 1, total: runs, passed})}]\n`,
+                `\n[CY-RUN-END:${JSON.stringify({ run: i + 1, total: runs, passed })}]\n`,
               );
             }
 
             if (aborted) {
-              res.write(`\n[CY-ABORTED]\n`);
+              res.write("\n[CY-ABORTED]\n");
             } else {
               const passed = results.filter(Boolean).length;
               res.write(
-                `\n[CY-STATS:${JSON.stringify({passed, failed: runs - passed, total: results.length})}]\n`,
+                `\n[CY-STATS:${JSON.stringify({ passed, failed: runs - passed, total: results.length })}]\n`,
               );
             }
             res.end();

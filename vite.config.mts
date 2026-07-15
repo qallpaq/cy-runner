@@ -1,11 +1,9 @@
 import react from "@vitejs/plugin-react";
 import * as path from "path";
-import {fileURLToPath} from "url";
-import {defineConfig} from "vite";
-
+import { fileURLToPath } from "url";
+import { defineConfig } from "vite";
 import { config as loadDotenv } from "dotenv";
-
-import {cyRunnerPlugin} from "./cy-runner-plugin";
+import { cyRunnerPlugin } from "./cy-runner-plugin";
 
 const appRoot = path.resolve(fileURLToPath(import.meta.url), "../");
 

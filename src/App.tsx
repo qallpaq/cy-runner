@@ -1,11 +1,10 @@
-import {useState} from "react";
+import { useState } from "react";
 
 import "./app.css";
-import {Results, Specs} from "./components";
-import {useRunner, useSpecs} from "./hooks";
-import {Input} from "./ui";
+import { Results, Specs } from "./components";
+import { useRunner, useSpecs } from "./hooks";
+import { Input } from "./ui";
 
-// @TODO: crossPlatform(windows/linux)
 export const App = () => {
   const [query, setQuery] = useState("");
   const [runsCount, setRunsCount] = useState("1");

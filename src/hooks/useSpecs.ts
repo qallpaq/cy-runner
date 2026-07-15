@@ -7,6 +7,7 @@ export const useSpecs = (query: string) => {
 
   useEffect(() => {
     if (!query) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSpecs([]);
       return;
     }
