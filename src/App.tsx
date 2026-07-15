@@ -1,9 +1,9 @@
-import { useState } from "react";
+import {useState} from "react";
 
 import "./app.css";
-import { Results, Specs } from "./components";
-import { useRunner, useSpecs } from "./hooks";
-import { Input } from "./ui";
+import {Results, Specs} from "./components";
+import {useRunner, useSpecs} from "./hooks";
+import {Input} from "./ui";
 
 // @TODO: crossPlatform(windows/linux)
 export const App = () => {
@@ -21,11 +21,14 @@ export const App = () => {
     stop,
   } = useRunner();
 
+  //test
+  console.log('123123')
+
   return (
     <div className="root">
       <h1>CY-runner</h1>
       <section className="hstack gap-2">
-        <Input label="query" value={query} onChange={setQuery} />
+        <Input label="query" value={query} onChange={setQuery}/>
         <Input
           label="runs"
           type="number"
@@ -46,7 +49,7 @@ export const App = () => {
       )}
       {runningSpec && <button onClick={stop}>Stop</button>}
       {(runResults.length > 0 || stats || aborted) && (
-        <Results runResults={runResults} aborted={aborted} stats={stats} />
+        <Results runResults={runResults} aborted={aborted} stats={stats}/>
       )}
       {output.length > 0 && (
         <section>
