@@ -21,9 +21,6 @@ export const App = () => {
     stop,
   } = useRunner();
 
-  //test
-  console.log('123123')
-
   return (
     <div className="root">
       <h1>CY-runner</h1>
